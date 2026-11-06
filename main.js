@@ -188,8 +188,9 @@ const normalTexture = loadTexture("texture2.jpg");
 
 const BUMP_MAPPING = 0, NORMAL_MAPPING = 1;
 const objects = [
-  { mesh: cubeMesh, texture: brickTexture, mapping: BUMP_MAPPING, offset: [-1.8, 0, 0] },
-  { mesh: cylinderMesh, texture: normalTexture, mapping: NORMAL_MAPPING, offset: [1.8, 0, 0] }
+  { mesh: cubeMesh, texture: brickTexture, mapping: BUMP_MAPPING, offset: [-1.6, 0.9, 0] },
+  { mesh: cylinderMesh, texture: normalTexture, mapping: NORMAL_MAPPING, offset: [1.6, 0.9, 0] },
+  { mesh: sphereMesh, texture: brickTexture, mapping: NORMAL_MAPPING, offset: [0, 0.9, 0]},
 ];
 
 gl.enable(gl.DEPTH_TEST);
