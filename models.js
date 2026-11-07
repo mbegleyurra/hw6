@@ -91,7 +91,7 @@ function createSphere(segments = 32, rings = 24) {
       const u = segment / segments;
       const theta = 2 * Math.PI * u;
       const sinTheta = Math.sin(theta), cosTheta = Math.cos(theta);
-      const x = sinPhi, y = cosPhi, z = sinPhi * cosTheta;
+      const x = cosPhi * cosTheta, y = sinPhi, z = cosPhi * sinTheta;
 
       positions.push(x, y, z);
       normals.push(x, y, z);
@@ -121,7 +121,7 @@ function createSphere(segments = 32, rings = 24) {
 
 function createTorus(majorSegments = 48, minorSegments = 24, majorRadius = 0.7, minorRadius = 0.3)
 {
-  const position = [], normals = [], tangents = [], texCoords = [], indices = [];
+  const positions = [], normals = [], tangents = [], texCoords = [], indices = [];
 
   // Creates one more vertex than needed so the texture wraps properly
   for (let minor = 0; minor <= minorSegments; minor++)
@@ -130,15 +130,15 @@ function createTorus(majorSegments = 48, minorSegments = 24, majorRadius = 0.7, 
     const phi = Math.PI * v;
     const cosPhi = Math.cos(phi), sinPhi = Math.sin(phi);
 
-    for( let major = 0; major <= majorSegments; major++);
+    for( let major = 0; major <= majorSegments; major++)
     {
       const u = major / majorSegments;
       const theta = 2 * Math.PI * u;
       const cosTheta = Math.cos(theta), sinTheta = Math.sin(theta);
       const radius = majorRadius + minorRadius * cosPhi;
 
-      positions.push(radius * sinTheta, minorRadius * sinPhi, radious * cosTheta);
-      normals.push(cosPhi * sinTheta, sinPhi, cosPhi * costheta);
+      positions.push(radius * sinTheta, minorRadius * sinPhi, radius * cosTheta);
+      normals.push(cosPhi * sinTheta, sinPhi, cosPhi * cosTheta);
       tangents.push(cosTheta, 0, -sinTheta);
       texCoords.push(u,v);
     }
@@ -147,17 +147,17 @@ function createTorus(majorSegments = 48, minorSegments = 24, majorRadius = 0.7, 
   // Creating triangles
   for (let minor = 0; minor < minorSegments; minor++)
   {
-    for (let major = 0; major < major segments; major++)
+    for (let major = 0; major < majorSegments; major++)
     {
-      const a = minor * (majorSegments + 1) major;
+      const a = minor * (majorSegments + 1) + major;
       const b = a + majorSegments + 1;
       indices.push(a, a + 1, b, a + 1, b + 1, b);
     }
   }
 
   return {
-    position: new Float32Array(positions),
-    normals: new Float32Array(normals)
+    positions: new Float32Array(positions),
+    normals: new Float32Array(normals),
     tangents: new Float32Array(tangents),
     texCoords: new Float32Array(texCoords),
     indices: new Uint16Array(indices)
@@ -166,18 +166,19 @@ function createTorus(majorSegments = 48, minorSegments = 24, majorRadius = 0.7, 
 
 function createTriangularPrism()
 {
-  const poitions = [], normals = [], tangents = [], texCoords = [], indices = [];
+  const positions = [], normals = [], tangents = [], texCoords = [], indices = [];
 
   function addTriangle(a, b, c, uvA, uvB, uvC)
   {
     const ab = [b[0] - a[0], b[1] - a[1], b[2] - a[2]];
-    const ab = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+    const ac = [c[0] - a[0], c[1] - a[1], c[2] - a[2]];
+    
     const normal = [
       ab[1] * ac[2] - ab[2] * ac[1],
       ab[2] * ac[0] - ab[0] * ac[2],
       ab[0] * ac[1] - ab[1] * ac[0]
     ];
-    const length = math.hypot(...normal);
+    const length = Math.hypot(...normal);
     // Normalize
     for (let i = 0; i < 3; i++)
     {
@@ -204,7 +205,7 @@ function createTriangularPrism()
   }
 
   const frontA = [-1, -1, 1], frontB = [1, -1, 1], frontC = [0, 1, 1];
-  const backA = [-1, -1, -1], backB [ 1, -1, -1], backC = [0, 1, -1];
+  const backA = [-1, -1, -1], backB = [1, -1, -1], backC = [0, 1, -1];
 
   addTriangle(frontA, frontB, frontC, [0, 0], [1, 0], [0.5, 1]);
   addTriangle(backA, backC, backB, [0, 0], [0.5, 1], [1, 0]);
@@ -213,7 +214,7 @@ function createTriangularPrism()
   addQuad(frontC, backC, backA, frontA);
 
   return {
-    positions: new Float32Array(poitions),
+    positions: new Float32Array(positions),
     normals: new Float32Array(normals),
     tangents: new Float32Array(tangents),
     texCoords: new Float32Array(texCoords),
