@@ -165,6 +165,9 @@ function createMesh({ positions, normals, tangents, texCoords, indices }) {
 
 const cubeMesh = createMesh(createCube());
 const cylinderMesh = createMesh(createCylinder());
+const sphereMesh = createMesh(createSphere());
+const torusMesh = createMesh(createTorus());
+const triangularPrismMesh = createMesh(createTriangularPrism());
 
 function loadTexture(url) {
   const texture = gl.createTexture();
@@ -192,6 +195,7 @@ const objects = [
   { mesh: cylinderMesh, texture: normalTexture, mapping: NORMAL_MAPPING, offset: [1.6, 0.9, 0] },
   { mesh: sphereMesh, texture: brickTexture, mapping: NORMAL_MAPPING, offset: [0, 0.9, 0]},
 ];
+const objectScale = 0.4;
 
 gl.enable(gl.DEPTH_TEST);
 gl.clearColor(0, 0, 0, 1);

@@ -85,13 +85,13 @@ function createSphere(segments = 32, rings = 24) {
   {
     const v = ring / rings; // From zero to one. The faction of which ring we are currently at
     const phi = 2 * Math.PI * v;
-    const sinPhi = Math.sin(phi), cosPhi = math.cos(phi);
+    const sinPhi = Math.sin(phi), cosPhi = Math.cos(phi);
 
     for (let segment = 0; segment <= segments; segment++) {
-      const = segment / segments;
+      const u = segment / segments;
       const theta = 2 * Math.PI * u;
       const sinTheta = Math.sin(theta), cosTheta = Math.cos(theta);
-      const x = sinPhi;, y = cosPhi, z = sinPhi * cosTheta;
+      const x = sinPhi, y = cosPhi, z = sinPhi * cosTheta;
 
       positions.push(x, y, z);
       normals.push(x, y, z);
@@ -127,7 +127,7 @@ function createTorus(majorSegments = 48, minorSegments = 24, majorRadius = 0.7, 
   for (let minor = 0; minor <= minorSegments; minor++)
   {
     const v = minor / minorSegments;
-    const phi = 2 * Math.PI * v;
+    const phi = Math.PI * v;
     const cosPhi = Math.cos(phi), sinPhi = Math.sin(phi);
 
     for( let major = 0; major <= majorSegments; major++);
